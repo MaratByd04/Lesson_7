@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.IO;
 
 namespace Lesson_7
 {
@@ -23,6 +25,10 @@ namespace Lesson_7
 
             account1.PrintInfoAboutAccount();
             account2.PrintInfoAboutAccount();
+
+            Console.WriteLine("Нажмите что-нибудь для перехода к следующей задаче.");
+            Console.ReadKey();
+            Console.Clear();
         }
         static void Zadanie2()
         {
@@ -31,12 +37,45 @@ namespace Lesson_7
             Console.WriteLine("Введите строку, которую желаете перевернуть.");
             string str = Console.ReadLine();
             string revers = ReverseString(str);
-            Console.WriteLine(revers);
+            Console.WriteLine(revers + "\n");
+
+            Console.ReadKey();
+            Console.Clear();
+        }
+        static void Zadanie3()
+        {
+            Console.WriteLine("Введите название файла. (Для проверки работы программы введите *текст.txt*)");
+            string inputFilename = Console.ReadLine();
+            if (!File.Exists(inputFilename)) 
+            {
+                Console.WriteLine("Файла с таким наименованием не существует.");
+            }
+            else
+            {
+                try
+                {
+                    string outputFilename = "output.txt";
+                    string content = File.ReadAllText(inputFilename);
+                    string uppercaseContent = content.ToUpper();
+                    File.WriteAllText(outputFilename, uppercaseContent);
+                    
+
+                    Console.WriteLine($"Содержимое файла '{inputFilename}' успешно записано в файл '{outputFilename}' в верхнем регистре.");
+                    Console.WriteLine(File.ReadAllText(outputFilename));
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
         }
         static void Main(string[] args)
         {
             Zadanie1();
             Zadanie2();
+            Zadanie3();
             Console.ReadKey();
         }
     }

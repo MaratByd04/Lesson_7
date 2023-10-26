@@ -49,6 +49,9 @@ namespace Lesson_7
             if (!File.Exists(inputFilename)) 
             {
                 Console.WriteLine("Файла с таким наименованием не существует.");
+                Console.ReadKey();
+                Console.Clear();
+
             }
             else
             {
@@ -68,14 +71,55 @@ namespace Lesson_7
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
+                    Console.ReadKey();
+                    Console.Clear();
                 }
             }
         }
+        // метод для дз 8.1
+        public static void SearchMail(ref string s)
+        {
+            int index = s.IndexOf('#');
+            if (index != -1 && index < s.Length - 1)
+            {
+                s = s.Substring(index + 1).Trim();
+            }
+            else
+            {
+                s = string.Empty;
+            }
+        }
+        public static void CreateEmailListFile(string inputFilePath, string outputFilePath)
+        {
+            string[] lines = File.ReadAllLines(inputFilePath);
+            string[] emails = new string[lines.Length];
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string email = lines[i];
+                SearchMail(ref email);
+                emails[i] = email;
+            }
+
+            File.WriteAllLines(outputFilePath, emails);
+        }
+        static void Zadanie4()
+        {
+            string inputFilePath = "input.txt"; 
+            string outputFilePath = "output.txt"; 
+
+            CreateEmailListFile(inputFilePath, outputFilePath);
+
+            Console.WriteLine("Адреса электронной почты успешно извлечены и записаны в новый файл.");
+            Console.WriteLine(File.ReadAllText(outputFilePath));
+        } // все еще он
+       
         static void Main(string[] args)
         {
             Zadanie1();
             Zadanie2();
             Zadanie3();
+            Zadanie4();
             Console.ReadKey();
         }
     }
